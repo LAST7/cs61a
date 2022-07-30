@@ -269,11 +269,11 @@ def path_yielder(t, value):
     """
 
     "*** YOUR CODE HERE ***"
-
-    for _______________ in _________________:
-        for _______________ in _________________:
-
-            "*** YOUR CODE HERE ***"
+    if t.label == value:
+        yield [value]
+    for branch in t.branches:
+        for path in path_yielder(branch, value):
+            yield [t.label] + path
 
 
 def remove_all(link , value):
@@ -294,6 +294,13 @@ def remove_all(link , value):
     <0 1>
     """
     "*** YOUR CODE HERE ***"
+    if link.rest == Link.empty:
+        return
+    elif link.rest.first == value:
+        link.rest = link.rest.rest
+        remove_all(link, value)
+    else:
+        remove_all(link.rest, value)
 
 
 def deep_map(f, link):
@@ -310,6 +317,13 @@ def deep_map(f, link):
     <<2 <4 6> 8> <<10>>>
     """
     "*** YOUR CODE HERE ***"
+    if link == Link.empty:
+        return Link.empty
+    if isinstance(link.first, Link):
+        node = deep_map(f, link.first)
+    else:
+        node = f(link.first)
+    return Link(node, deep_map(f, link.rest))
 
 
 class Tree:

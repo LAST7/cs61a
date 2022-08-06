@@ -1,5 +1,9 @@
 (define (over-or-under num1 num2)
   'YOUR-CODE-HERE
+  (cond
+    ((> num1 num2) 1)
+    ((< num1 num2) -1)
+    (else 0))
 )
 
 ;;; Tests
@@ -13,6 +17,12 @@
 
 (define (filter-lst fn lst)
   'YOUR-CODE-HERE
+  (if (null? lst) nil
+    (if (fn (car lst))
+      (cons (car lst) (filter-lst fn (cdr lst)))
+      (filter-lst fn (cdr lst))
+    )
+  )
 )
 
 ;;; Tests
@@ -24,6 +34,10 @@
 
 (define (make-adder num)
   'YOUR-CODE-HERE
+  (define (out number)
+    (+ num number)
+  )
+  out
 )
 
 ;;; Tests
@@ -34,16 +48,27 @@
 
 (define lst
   'YOUR-CODE-HERE
+  (list (cons 1 nil) 2 (list 3 4) 5)
 )
 
 
 (define (composed f g)
   'YOUR-CODE-HERE
+  (define (new x)
+    (f (g x))
+    )
+  new
 )
 
 
 (define (remove item lst)
   'YOUR-CODE-HERE
+  (if (null? lst) nil
+    (if (= item (car lst))
+      (remove item (cdr lst))
+      (cons (car lst) (remove item (cdr lst)))
+    )
+  )
 )
 
 
@@ -58,15 +83,31 @@
 
 (define (no-repeats s)
   'YOUR-CODE-HERE
+  (if (null? s) nil
+    (cons (car s) (no-repeats (remove (car s) (cdr s))))
+  )
 )
 
 
 (define (substitute s old new)
   'YOUR-CODE-HERE
+  (if (null? s) nil
+    (if (pair? (car s))
+      (cons (substitute (car s) old new) (substitute (cdr s) old new))
+      (if (eq? (car s) old)
+        (cons new (substitute (cdr s) old new))
+        (cons (car s) (substitute (cdr s) old new))
+      )
+    )
+  )
 )
 
 
 (define (sub-all s olds news)
   'YOUR-CODE-HERE
+  (if (null? s) nil
+    (if (null? olds) s
+      (sub-all (substitute s (car olds) (car news)) (cdr olds) (cdr news))
+    )
+  )
 )
-

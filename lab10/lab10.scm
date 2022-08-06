@@ -91,7 +91,8 @@
 
 (define (substitute s old new)
   'YOUR-CODE-HERE
-  (if (null? s) nil
+  (if (null? s)
+    nil
     (if (pair? (car s))
       (cons (substitute (car s) old new) (substitute (cdr s) old new))
       (if (eq? (car s) old)
